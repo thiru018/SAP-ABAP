@@ -1,0 +1,93 @@
+*&---------------------------------------------------------------------*
+*& Report ZABC_03_ALV_REPORT
+*&---------------------------------------------------------------------*
+*&
+*&---------------------------------------------------------------------*
+REPORT ZABC_03_ALV_REPORT.
+
+DATA: LT_MARA TYPE TABLE OF MARA,
+      IT_ALV_DESIGN TYPE SLIS_T_FIELDCAT_ALV,
+      WA_ALV_DESIGN TYPE SLIS_FIELDCAT_ALV.
+
+SELECT * FROM MARA INTO TABLE LT_MARA.
+
+WA_ALV_DESIGN-COL_POS = 1.
+WA_ALV_DESIGN-FIELDNAME = 'MATNR'.
+WA_ALV_DESIGN-TABNAME = 'LT_MARA'.
+WA_ALV_DESIGN-OUTPUTLEN = 18.
+WA_ALV_DESIGN-SELTEXT_M = 'MATERIAL NUMBER'.
+
+APPEND WA_ALV_DESIGN TO IT_ALV_DESIGN.
+CLEAR WA_ALV_DESIGN.
+
+WA_ALV_DESIGN-COL_POS = 2.
+WA_ALV_DESIGN-FIELDNAME = 'ERNAM'.
+WA_ALV_DESIGN-TABNAME = 'LT_MARA'.
+WA_ALV_DESIGN-OUTPUTLEN = 12.
+WA_ALV_DESIGN-SELTEXT_M = 'PERSON WHO CREATED'.
+
+APPEND WA_ALV_DESIGN TO IT_ALV_DESIGN.
+CLEAR WA_ALV_DESIGN.
+
+WA_ALV_DESIGN-COL_POS = 3.
+WA_ALV_DESIGN-FIELDNAME = 'ERSDA'.
+WA_ALV_DESIGN-TABNAME = 'LT_MARA'.
+WA_ALV_DESIGN-OUTPUTLEN = 12.
+WA_ALV_DESIGN-SELTEXT_M = 'CREATED ON'.
+
+APPEND WA_ALV_DESIGN TO IT_ALV_DESIGN.
+CLEAR WA_ALV_DESIGN.
+
+CALL FUNCTION 'REUSE_ALV_GRID_DISPLAY'
+ EXPORTING
+*   I_INTERFACE_CHECK                 = ' '
+*   I_BYPASSING_BUFFER                = ' '
+*   I_BUFFER_ACTIVE                   = ' '
+*   I_CALLBACK_PROGRAM                = ' '
+*   I_CALLBACK_PF_STATUS_SET          = ' '
+*   I_CALLBACK_USER_COMMAND           = ' '
+*   I_CALLBACK_TOP_OF_PAGE            = ' '
+*   I_CALLBACK_HTML_TOP_OF_PAGE       = ' '
+*   I_CALLBACK_HTML_END_OF_LIST       = ' '
+*   I_STRUCTURE_NAME                  =
+*   I_BACKGROUND_ID                   = ' '
+*   I_GRID_TITLE                      =
+*   I_GRID_SETTINGS                   =
+*   IS_LAYOUT                         =
+   IT_FIELDCAT                       = IT_ALV_DESIGN
+*   IT_EXCLUDING                      =
+*   IT_SPECIAL_GROUPS                 =
+*   IT_SORT                           =
+*   IT_FILTER                         =
+*   IS_SEL_HIDE                       =
+*   I_DEFAULT                         = 'X'
+*   I_SAVE                            = ' '
+*   IS_VARIANT                        =
+*   IT_EVENTS                         =
+*   IT_EVENT_EXIT                     =
+*   IS_PRINT                          =
+*   IS_REPREP_ID                      =
+*   I_SCREEN_START_COLUMN             = 0
+*   I_SCREEN_START_LINE               = 0
+*   I_SCREEN_END_COLUMN               = 0
+*   I_SCREEN_END_LINE                 = 0
+*   I_HTML_HEIGHT_TOP                 = 0
+*   I_HTML_HEIGHT_END                 = 0
+*   IT_ALV_GRAPHICS                   =
+*   IT_HYPERLINK                      =
+*   IT_ADD_FIELDCAT                   =
+*   IT_EXCEPT_QINFO                   =
+*   IR_SALV_FULLSCREEN_ADAPTER        =
+*   O_PREVIOUS_SRAL_HANDLER           =
+* IMPORTING
+*   E_EXIT_CAUSED_BY_CALLER           =
+*   ES_EXIT_CAUSED_BY_USER            =
+  TABLES
+    t_outtab                          = LT_MARA
+ EXCEPTIONS
+   PROGRAM_ERROR                     = 1
+   OTHERS                            = 2
+          .
+IF sy-subrc <> 0.
+* Implement suitable error handling here
+ENDIF.
